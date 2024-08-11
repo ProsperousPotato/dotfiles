@@ -14,7 +14,7 @@ PS1="[\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h \[$(tput se
 
 export EDITOR='vim'
 export TERMINAL='st'
-export BROWSER='librewolf-bin'
+export BROWSER='' # Add a default browser here
 export VISUAL='nvim'
 export READER='nvim'
 
@@ -25,23 +25,23 @@ export READER='nvim'
 
 
 # Gentoo
-alias sudo="doas "
-alias doas="doas "
-alias dispatch-conf="doas dispatch-conf"
-alias emerge="time doas emerge "
-alias openrc="doas openrc"
-alias 23="doas poweroff"
-alias 42="doas reboot"
+# alias sudo="doas "
+# alias doas="doas "
+# alias dispatch-conf="doas dispatch-conf"
+# alias emerge="time doas emerge "
+# alias openrc="doas openrc"
+# alias 23="doas poweroff"
+# alias 42="doas reboot"
 
 
-# alias sudo="sudo "
+alias sudo="sudo "
 # alias mkgrubcfg="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias :wq="exit"
 alias :q="exit"
-alias sxiv="nsxiv"
+# alias sxiv="nsxiv"
 alias nsxiv="nsxiv -t"
-alias vim="nvim"
-alias powertop="doas powertop"
+# alias vim="nvim"
+# alias powertop="doas powertop"
 alias ff="fastfetch -l native -s none | lolcat --truecolor --force | fastfetch --raw - --logo-width 37 --logo-height 19"
 alias nf="neofetch"
 alias ls='ls --color=auto'
@@ -50,7 +50,6 @@ alias ..="cd .."
 alias mv="mv -iv"
 alias cp="cp -ivr" 
 alias rm="rm -iv"
-alias '7zip'="7zz e"
 alias mpv="setsid -f mpv -hwdec=auto"
 alias nv="nvim"
 alias v="vim"
@@ -63,7 +62,6 @@ alias .lsst="cd ~/.local/src/st"
 alias .lsdwm="cd ~/.local/src/dwm"
 alias .lsdmenu="cd ~/.local/src/dmenu"
 alias .lssl="cd ~/.local/src/slstatus"
-alias .lshu="cd ~/.local/share/urxvt"
 
 
 bind '"\C-e":   "\clear & lfcd\n"'
