@@ -1,0 +1,48 @@
+! urxvt
+URxvt*buffered: true
+URxvt*cursorBlink: true
+URxvt*underlineColor: blue
+URxvt*font:  xft:cozette:size=12, xft:cozette:size=12
+URxvt.boldFont:
+URxvt*depth: 32
+URxvt*borderless: 1
+URxvt*scrollBar: false
+URxvt*loginShell: true
+Urxvt*secondaryScroll: false
+URxvt*saveLines: 65535
+URxvt*termName: rxvt-unicode
+URxvt.urlLauncher: /usr/bin/librewolf-bin
+URxvt.matcher.button: 1
+URxvt.underlineURLs:  True
+*.foreground:  #d6dbe5
+! *.background:  #1f1e2f # Same as catppuccin colour scheme
+*.background:  #000000
+*.color0:      #1f1f1f
+*.color8:      #d6dbe5
+*.color1:      #f81118
+*.color9:      #de352e
+*.color2:      #2dc55e
+*.color10:     #1dd361
+*.color3:      #ecba0f
+*.color11:     #f3bd09
+*.color4:      #2a84d2
+*.color12:     #1081d6
+*.color5:      #4e5ab7
+*.color13:     #5350b9
+*.color6:      #1081d6
+*.color14:     #0f7ddb
+*.color7:      #d6dbe5
+*.color15:     #ffffff
+*.colorBD:     #d6dbe5
+URxvt.geometry: 150x40
+URxvt.keysym.Alt-k: command:\033]720;1\007
+URxvt.keysym.Alt-j: command:\033]721;1\007
+URxvt.keysym.Meta-Control-l: command:\033c
+URxvt.print-pipe: cat > ~/.local/share/urxvt/termout_$(date '+%Y-%m-%d_%H:%M:%S').txt
+URxvt.keysym.C-Insert: eval:selection_to_clipboard
+URxvt.keysym.M-Insert: eval:paste_clipboard
+URxvt.perl-ext-common: selection-to-clipboard,keyboard-select,url-select,clipboard,matcher
+URxvt.scrollTtyOutput: False
+URxvt.scrollWithBuffer: True
+URxvt.scrollTtyKeypress: True
+URxvt.keysym.M-Escape:perl:keyboard-select:activate

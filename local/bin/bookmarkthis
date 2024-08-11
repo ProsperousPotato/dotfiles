@@ -1,0 +1,10 @@
+#!/bin/sh
+
+bookmark="$(xclip -o)"
+bookmarkfile="~/.local/bin/bookmarksfile"
+
+if grep -q "^$bookmark$" "$bookmarkfile"; then
+	exit
+else
+	echo "$bookmark" >> "$bookmarkfile"
+fi
