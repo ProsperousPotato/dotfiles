@@ -4,5 +4,5 @@ xclip &
 xcompmgr &
 hsetroot -solid "#000000" &
 slstatus &
-urxvtd &
+urxvtd --quiet --opendisplay --fork &
 exec dbus-launch --exit-with-session dwm
