@@ -1,0 +1,52 @@
+# Arch specific
+# alias orphans="pacman -Qqtd"
+# alias exterminateorphans="sudo pacman -Rns $(pacman -Qqtd)"
+# alias mkgrubcfg="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+
+# Gentoo specific
+alias sudo="doas "
+alias doas="doas "
+alias dispatch-conf="doas dispatch-conf"
+alias emerge="time doas emerge "
+alias sync="emerge --sync"
+alias openrc="doas openrc"
+alias 23="doas init 0"
+alias 42="doas init 6"
+
+# General
+# alias sudo="sudo "
+alias :wq!="doas poweroff"
+alias :wq="exit"
+alias :q="exit"
+alias sxiv="nsxiv"
+alias vim="nvim"
+alias powertop="sudo powertop"
+alias ff="fastfetch -l native -s none | lolcat --truecolor --force | fastfetch --raw - --logo-width 37 --logo-height 19"
+alias nf="neofetch"
+alias ls='ls --color=auto --size --human-readable'
+alias grep='grep --color=auto'
+alias ..="cd .."
+alias mv="mv -iv"
+alias cp="cp -ivr" 
+alias rm="rm -iv"
+alias mpv="mpv -hwdec=auto --fs & disown"
+alias nv="nvim"
+alias v="vim"
+alias myip="curl ipinfo.io/ip"
+alias mkexec="chmod +x "
+alias move="mv -iv"
+alias rename="mv -iv"
+alias copy="cp -ivr"
+alias delete="rm -iv"
+alias remove="rm -iv"
+
+# Directory aliases
+alias .lb="cd ~/.local/bin"
+alias .lsh="cd ~/.local/share"
+alias .ls="cd ~/.local/src"
+alias .c="cd ~/.config"
+alias .lsst="cd ~/.local/src/st"
+alias .lsdwm="cd ~/.local/src/dwm"
+alias .lsdmenu="cd ~/.local/src/dmenu"
+alias .lssl="cd ~/.local/src/slstatus"
+alias .lshu="cd ~/.local/share/urxvt"

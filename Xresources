@@ -35,11 +35,12 @@ urxvt*background: black
 *color14: #fcaf3e
 *color15: #EEEEEC
 
+URxvt.perl-lib: /usr/bin/perl
 URxvt.geometry: 150x40
 URxvt.keysym.M-k: command:\033]720;1\007
 URxvt.keysym.M-j: command:\033]721;1\007
 URxvt.keysym.Meta-Control-l: command:\033c
-URxvt.print-pipe: cat > ~/.local/share/urxvt/termout_$(date '+%Y-%m-%d_%H:%M:%S').txt
+URxvt.print-pipe: cat > ~/.urxvt/termout_$(date '+%Y-%m-%d_%H:%M:%S').txt
 URxvt.keysym.C-Insert: eval:selection_to_clipboard
 URxvt.keysym.M-Insert: eval:paste_clipboard
 URxvt.perl-ext-common: selection-to-clipboard,keyboard-select,url-select,clipboard,matcher,default
