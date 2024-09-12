@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# CPU
+cores=$(grep -c "^processor" /proc/cpuinfo)
+cpu_usage="$(ps aux | awk 'BEGIN {sum=0} {sum+=$3}; END {print sum}')"
+cpu_usage="$((${cpu_usage/\.*} / ${cores:-1}))"
+[ -z $cpu_usage ] && print_cpu=$(printf "") || print_cpu=$(printf "\033[0;92mCPU: %d%% \033[0m| " "$cpu_usage")
+
+# MEMORY
+read mem_total mem_free mem_buffers mem_cached mem_sreclaimable mem_shared < <(
+awk '/^MemTotal/ { mem_total=$2 } /^MemFree/ { mem_free=$2 } /^Buffers/ { mem_buffers=$2 } /^Cached/ { mem_cached=$2 }
+/^SReclaimable/ { mem_sreclaimable=$2 } /^Shmem/ { mem_shared=$2 }
+END { print mem_total, mem_free, mem_buffers, mem_cached, mem_sreclaimable, mem_shared }' /proc/meminfo)
+used_memory=$((mem_total - mem_free - mem_buffers - mem_cached - mem_sreclaimable + mem_shared)) 
+mem=$((used_memory / 1024))
+[ -z $mem ] && print_mem=$(printf "") || print_mem=$(printf "\033[0;93mRAM: %s MiB \033[0m| " "$mem")
+
+# VOLUME
+volume=$(amixer sget Master | awk -F[][] '/%/ { print $2 }')
+[ -z $volume ] && print_volume=$(printf "") || print_volume=$(printf "\033[0;96mVol: %s \033[0m| " "$volume")
+
+# NETWORK
+net_interface=$(ip route | awk '/default/ {print $5 }')
+ip_address=$(ip route | awk '/default/ {print $3 }')
+[ -z "$net_interface" ] && print_net=$(printf "") || print_net=$(printf "\033[0;95m%s: %s \033[0m| " "$net_interface" "$ip_address") 
+
+# BRIGHTNESS
+brightness=$(echo $(xbacklight -get 2> /dev/null))
+[ -z $brightness ] && print_brightness=$(printf "") || print_brightness=$(printf "\033[0;94mLCD: %.f%% \033[m" "$brightness")
+
+# BATTERY
+battery_level=$(cat /sys/class/power_supply/BAT0/capacity 2> /dev/null)
+battery_status=$(cat /sys/class/power_supply/BAT0/status 2> /dev/null)
+
+print_battery_level=$(printf "| Battery: %s%% " "$battery_level")
+print_battery_status=$(printf "[%s]" "$battery_status")
+[ "$battery_level" -le "100" ] && [ "$battery_level" -ge "50" ] && print_battery_level=$(printf "| \033[0;92mBattery: \033[0;92m%s%%\033[0m " "$battery_level")
+[ "$battery_level" -le "50" ] && [ "$battery_level" -ge "20" ] && print_battery_level=$(printf "| \033[0;92mBattery: \033[0;93m%s%%\033[0m " "$battery_level")
+[ "$battery_level" -le "20" ] && print_battery_level=$(printf "| \033[0;92mBattery: \033[0;91m%s%%\033[0m " "$battery_level")
+[ -z $battery_level ] && print_battery_level=$(printf "")
+
+[ "$battery_status" == "Discharging" ] && print_battery_status=$(printf "\033[0;91m[%s]" "$battery_status") || print_battery_status=$(printf "\033[0;92m[%s]" "$battery_status")
+[ -z "$battery_status" ] && print_battery_status=$(printf "")
+
+# CENTER TEXT
+center_text() {
+    text="$1"
+    term_width=$(tput cols)
+    strip_colors() {
+        echo "$1" | sed 's/\x1b\[[0-9;]*m//g'
+    }
+    while IFS= read -r line; do
+        clean_line=$(strip_colors "$line")
+        line_length=$(echo -n "$clean_line" | wc -m)
+        padding=$(( (term_width - line_length) / 2 ))
+        padding_spaces=$(printf "%${padding}s")
+        echo -e "${padding_spaces}${line}"
+    done <<< "$text"
+}
+# DEFINE OUTPUT TEXT
+output=$(printf "%s%s%s%s%s%s%s" \
+    "$print_cpu" "$print_mem" "$print_volume" "$print_net" "$print_brightness" "$print_battery_level" "$print_battery_status")
+
+# PRINT OUTPUT TEXT
+center_text "$output"
