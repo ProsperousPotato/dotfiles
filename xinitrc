@@ -1,8 +1,7 @@
-xrdb -merge ~/.Xresources &
-unclutter &
-xclip &
+urxvtd --quiet --opendisplay &
+pipewire &
 xcompmgr &
+unclutter &
+xrdb -load ~/.Xresources &
 hsetroot -solid "#000000" &
-slstatus &
-urxvtd --quiet --opendisplay --fork &
-exec dbus-launch --exit-with-session dwm
+exec dwm &> ~/.local/share/dwm/dwm.log

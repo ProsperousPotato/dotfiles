@@ -1,23 +1,24 @@
 ! urxvt
-URxvt*buffered: true
-URxvt*cursorBlink: true
-URxvt*underlineColor: blue
-URxvt*font:  xft:cozette:size=12, xft:cozette:size=12
-URxvt.boldFont:
-URxvt*depth: 32
-URxvt*borderless: 1
-URxvt*scrollBar: false
-URxvt*loginShell: true
-Urxvt*secondaryScroll: false
-URxvt*saveLines: 65535
-URxvt*termName: rxvt-unicode
-URxvt.url-select.launcher: /usr/bin/xdg-open
-URxvt.matcher.button: 1
-URxvt.underlineURLs:  True
-URxvt.cursorColor: White
+urxvt*buffered: true
+urxvt*cursorBlink: true
+urxvt*underlineColor: blue
+urxvt*font:  xft:cozette:size=12, xft:cozette:size=12
+urxvt.boldFont:
+urxvt*depth: 32
+urxvt*borderless: 1
+urxvt*scrollBar: false
+urxvt*loginShell: true
+uRxvt*secondaryScroll: false
+urxvt*saveLines: 65535
+urxvt*termName: rxvt-unicode
+urxvt.url-select.launcher: /usr/bin/librewolf-bin
+urxvt.matcher.button: 1
+urxvt.underlineURLs:  True
+urxvt.cursorColor: White
 
+urxvt.depth: 32
 urxvt*foreground: white
-urxvt*background: black
+urxvt*background: [80]#000000
 *color0:  #2E3436
 *color1:  #a40000
 *color2:  #4E9A06
@@ -35,17 +36,17 @@ urxvt*background: black
 *color14: #fcaf3e
 *color15: #EEEEEC
 
-URxvt.perl-lib: /usr/bin/perl
-URxvt.geometry: 150x40
-URxvt.keysym.M-k: command:\033]720;1\007
-URxvt.keysym.M-j: command:\033]721;1\007
-URxvt.keysym.Meta-Control-l: command:\033c
-URxvt.print-pipe: cat > ~/.urxvt/termout_$(date '+%Y-%m-%d_%H:%M:%S').txt
-URxvt.keysym.C-Insert: eval:selection_to_clipboard
-URxvt.keysym.M-Insert: eval:paste_clipboard
-URxvt.perl-ext-common: selection-to-clipboard,keyboard-select,url-select,clipboard,matcher,default
-URxvt.keysym.M-u; perl: url-select:select-next
-URxvt.scrollTtyOutput: True
-URxvt.scrollWithBuffer: True
-URxvt.scrollTtyKeypress: True
-URxvt.keysym.M-Escape:perl:keyboard-select:activate
+urxvt.perl-lib: /usr/lib64/urxvt/perl
+urxvt.geometry: 150x40
+urxvt.keysym.M-k: command:\033]720;1\007
+urxvt.keysym.M-j: command:\033]721;1\007
+urxvt.keysym.Meta-Control-l: command:\033c
+urxvt.print-pipe: cat > ~/.urxvt/termout_$(date '+%Y-%m-%d_%H:%M:%S').txt
+urxvt.keysym.C-Insert: perl:clipboard.copy
+urxvt.keysym.M-Insert: perl:clipboard.paste
+urxvt.perl-ext-common: selection-to-clipboard,keyboard-select,matcher,default
+urxvt.keysym.M-u; perl: perl:matcher:select-next
+urxvt.scrollTtyOutput: True
+urxvt.scrollWithBuffer: True
+urxvt.scrollTtyKeypress: True
+urxvt.keysym.M-Escape:perl:keyboard-select:activate

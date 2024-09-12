@@ -11,24 +11,25 @@ set -o vi
 shopt -s autocd
 HISTSIZE= HISTFILESIZE= #
 
-PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'; PS1='\[\e[91m\][\[\e[92m\]\@\[\e[0m\] \[\e[93m\]\u\[\e[92m\]@\[\e[96m\]\H\[\e[0m\] \[\e[95m\]\w\[\e[91m\]] \[\e[36m\]${PS1_CMD1}\n\[\e[0m\] -> \$\# '
 
+export PATH="~/.local/bin:/usr/local/bin:/usr/bin:/bin:~/.local/games/"
+export PERL5LIB="/etc/perl:/usr/local/lib64/perl5/5.40/x86_64-linux:/usr/local/lib64/perl5/5.40:/usr/lib64/perl5/vendor_perl/5.40/x86_64-linux:/usr/lib64/perl5/vendor_perl/5.40:/usr/lib64/perl5/5.40/x86_64-linux:/usr/lib64/perl5/5.40:/usr/lib64/urxvt/perl"
 export EDITOR='vim'
-export TERMINAL='urxvtc'
+export TERMINAL='rxvt-unicode'
 export BROWSER='librewolf-bin'
 export VISUAL='nvim'
 export READER='nvim'
 
+astatus && PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'; PS1='\[\e[91m\][\[\e[92m\]\@\[\e[0m\] \[\e[93m\]\u\[\e[92m\]@\[\e[96m\]\H\[\e[0m\] \[\e[95m\]\w\[\e[91m\]] \[\e[36m\]${PS1_CMD1}\n\[\e[0m\] -> \$\# '
+
 # Keybinds for use in bash terminal
 bind '"\C-e":   "\clear & lfcd\n"'
 bind -m vi-insert "\C-l":clear-screen
-bind '"\C-a":   "\clear & iwctl\n"'
-bind '"\C-b":   "htop\n"'
-bind '"\C-`":   "vim ~/.bash_history\n"'
+bind '"\C-h":   "htop\n"'
+bind '"\C-`":   "nvim ~/.bash_history\n"'
 bind '"\C-p":   "doas ntpdate -u pool.ntp.org\n"'
 bind '"\C-n":   "nvim\n"'
-bind '"\C-w":   "openrc -s iwd "'
-bind '"\C-x":   "vim ~/.bashrc\n"'
+bind '"\C-x":   "nvim ~/.bashrc\n"'
 
 lfcd () {
     tmp="$(mktemp)"
@@ -60,16 +61,17 @@ function extract() {
 			*.tar.gz) tar xzf "$fullpath" ;;
 			*.tar.xz) tar Jxvf "$fullpath" ;;
 			*.tar.Z) tar xzf "$fullpath" ;;
+            *.tbz2) tar xjf "$fullpath" ;;
 			*.tar) tar xf "$fullpath" ;;
 			*.taz) tar xzf "$fullpath" ;;
 			*.tb2) tar xjf "$fullpath" ;;
 			*.tbz) tar xjf "$fullpath" ;;
-			*.tbz2) tar xjf "$fullpath" ;;
 			*.tgz) tar xzf "$fullpath" ;;
 			*.txz) tar Jxvf "$fullpath" ;;
+            *.rar) unrar e "$fullpath" ;;
 			*.zip) unzip "$fullpath" ;;
             *.7z) 7zz e "$fullpath" ;;
-            *.rar) unrar e "$fullpath" ;;
+            *.gz) gzip -d "$fullpath" ;;
             *.Z) uncompress "$fullpath" ;;
 			*) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
 		esac
@@ -77,3 +79,12 @@ function extract() {
 		echo "'$1' is not a valid file"
 	fi
 }
+
+run() {
+    number=$1
+    shift
+    for ((i=1; i<=number; i++)); do
+        "$@" echo x$i
+    done
+}
+status=$(astatus)
