@@ -1,0 +1,29 @@
+#!/bin/bash
+
+usage() {
+    echo "Usage: iterate -c \"<command>\" -d \"<directory>\""
+    exit 1
+}
+
+[ "$#" -lt 4 ] && usage
+
+COMMAND=""
+DIRECTORY=""
+
+while getopts "c:d:" opt; do
+    case $opt in
+        c) COMMAND=$OPTARG ;;
+        d) DIRECTORY=$OPTARG ;;
+        *) usage ;;
+    esac
+done
+
+[ -z "$COMMAND" ] || [ -z "$DIRECTORY" ] && usage
+
+[ -d "$DIRECTORY" ] || { echo "Directory '$DIRECTORY' does not exist."; exit 1; }
+
+for FILE in "$DIRECTORY"/*; do
+    [ -f "$FILE" ] && {
+        eval "$COMMAND \"$FILE\""
+    }
+done
