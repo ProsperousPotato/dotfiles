@@ -1,0 +1,5 @@
+#!/bin/sh
+
+input=$(dmenu -p "Calculation: ")
+
+[ -n "$input" ] && result=$(qalc "$input") ; echo "$result" | dmenu -p "Answer:"
