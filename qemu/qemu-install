@@ -1,0 +1,7 @@
+#!/bin/sh
+
+[ -z $(pwd | grep qemu) ] && cd ~/qemu/ ; [ $# -lt 3 ] && { 
+    echo "Usage = qemu-install <Install Image> <Virtual Disk Image> <Memory>"
+    echo "Example = qemu-install manjaro.iso manjaro.qcow2 6G"
+    exit
+} || qemu-system-x86_64 -enable-kvm -boot menu=off -cdrom $1 -drive file=$2,media=disk,if=virtio -m $3 -cpu host -smp $(( $(nproc --all) / 2 )) -vga virtio-gpu -display sdl,window-close=on,gl=on -device virtio-gpu -nic user,model=virtio
