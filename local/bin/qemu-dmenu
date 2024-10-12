@@ -8,7 +8,7 @@ case "$choice" in
 
         memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1
 
-        qemu-run "$disk" "$memory"
+        ~/qemu/qemu-run "$disk" "$memory"
         ;;
     qemu-install)
         iso=$(find ~/qemu/iso -type f | sed 's|/.*/.*/qemu/iso/||' | dmenu -i -p "Select ISO image:"); [ "$iso" == "exit" ] && exit 1
@@ -17,16 +17,16 @@ case "$choice" in
 
         memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1
         
-        qemu-install "$iso" "$disk" "$memory"
+        ~/qemu/qemu-install "$iso" "$disk" "$memory"
         ;;
     qemu-mkdisk)
         name=$(echo "" | dmenu -i -p "Enter disk name (e.g., manjaro.qcow2):"); [ "$name" == "exit" ] && exit 1
 
-        size=$(echo "10G\n20G\n30G\nexit" | dmenu -i -p "Enter disk size:"); [ "$size" == "exit" ] && exit 1
+        size=$(echo -e "10G\n20G\n30G\nexit" | dmenu -i -p "Enter disk size:"); [ "$size" == "exit" ] && exit 1
         
         format=$(echo -e "qcow2\nimg\nexit" | dmenu -i -p "Enter disk format:"); [ "$format" == "exit" ] && exit 1
 
-        qemu-mkdisk "$name" "$size" "$format"
+        ~/qemu/qemu-mkdisk "$name" "$size" "$format"
         ;;
     exit)
         exit 1
