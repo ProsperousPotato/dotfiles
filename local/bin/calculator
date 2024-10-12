@@ -1,5 +1,6 @@
 #!/bin/sh
 
-input=$(dmenu -p "Calculation: ")
+input=$(cat ~/.local/share/qalculate/qalc_history | dmenu -p "Calculation: ")
 
-[ -n "$input" ] && result=$(qalc "$input") ; echo "$result" | dmenu -p "Answer:"
+[ "$input" == "exit" ] && exit 1
+[ -n "$input" ] && result=$(qalc "$input") ; echo "$result" | dmenu -p "Answer:" && echo "$result" >> ~/.local/share/qalculate/qalc_history
