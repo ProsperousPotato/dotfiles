@@ -4,4 +4,4 @@
     echo "Usage = qemu-mkdisk <Name> <Size> <Format>"
     echo "Example = qemu-mkdisk Manjaro.qcow2 20G qcow2"
     exit
-} ||  qemu-img create -f $3 $1 $2
+} ||  qemu-img create -f $3 $HOME/qemu/vdd/"$1" $2
