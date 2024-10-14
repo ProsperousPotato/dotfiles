@@ -4,4 +4,4 @@
 # runs your .bashrc and is recommended by the bash info pages.
 [ -f ~/.bashrc ] && . ~/.bashrc
 
-[ "$(tty)" = "/dev/tty1"  ] && pgrep dwm || startx &> ~/.local/share/xorg/xorg-runtime.log
+[ "$(tty)" == "/dev/tty1"  ] && ! pgrep dwm || startx &> ~/.local/share/xorg/xorg-runtime.log
