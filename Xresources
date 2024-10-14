@@ -18,7 +18,7 @@ urxvt.cursorColor: White
 
 urxvt.depth: 32
 urxvt*foreground: white
-urxvt*background: [80]#000000
+urxvt*background: [60]#000000
 *color0:  #2E3436
 *color1:  #a40000
 *color2:  #4E9A06
@@ -37,7 +37,7 @@ urxvt*background: [80]#000000
 *color15: #EEEEEC
 
 urxvt.perl-lib: /usr/lib64/urxvt/perl
-urxvt.geometry: 150x40
+urxvt.geometry: 200x100
 urxvt.keysym.M-k: command:\033]720;1\007
 urxvt.keysym.M-j: command:\033]721;1\007
 urxvt.keysym.Meta-Control-l: command:\033c

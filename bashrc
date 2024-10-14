@@ -11,25 +11,22 @@ set -o vi
 shopt -s autocd
 HISTSIZE= HISTFILESIZE= #
 
+setxkbmap gb
 
-export PATH="~/.local/bin:/usr/local/bin:/usr/bin:/bin:~/.local/games/"
+export PATH="~/.local/bin:/usr/local/bin:/usr/bin:/bin:~/.local/games/:~/qemu/"
 export PERL5LIB="/etc/perl:/usr/local/lib64/perl5/5.40/x86_64-linux:/usr/local/lib64/perl5/5.40:/usr/lib64/perl5/vendor_perl/5.40/x86_64-linux:/usr/lib64/perl5/vendor_perl/5.40:/usr/lib64/perl5/5.40/x86_64-linux:/usr/lib64/perl5/5.40:/usr/lib64/urxvt/perl"
-export EDITOR='vim'
-export TERMINAL='rxvt-unicode'
+export EDITOR='nvim'
+export TERMINAL='urxvtc'
 export BROWSER='librewolf-bin'
 export VISUAL='nvim'
 export READER='nvim'
 
-astatus && PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'; PS1='\[\e[91m\][\[\e[92m\]\@\[\e[0m\] \[\e[93m\]\u\[\e[92m\]@\[\e[96m\]\H\[\e[0m\] \[\e[95m\]\w\[\e[91m\]] \[\e[36m\]${PS1_CMD1}\n\[\e[0m\] -> \$\# '
+PROMPT_COMMAND='PS1_CMD1=$(git branch --show-current 2>/dev/null)'; PS1='\[\e[91m\][\[\e[92m\]\@\[\e[0m\] \[\e[93m\]\u\[\e[92m\]@\[\e[96m\]\H\[\e[0m\] \[\e[95m\]\w\[\e[91m\]] \[\e[36m\]${PS1_CMD1}\n\[\e[0m\] -> \$\# '
 
 # Keybinds for use in bash terminal
 bind '"\C-e":   "\clear & lfcd\n"'
 bind -m vi-insert "\C-l":clear-screen
-bind '"\C-h":   "htop\n"'
 bind '"\C-`":   "nvim ~/.bash_history\n"'
-bind '"\C-p":   "doas ntpdate -u pool.ntp.org\n"'
-bind '"\C-n":   "nvim\n"'
-bind '"\C-x":   "nvim ~/.bashrc\n"'
 
 lfcd () {
     tmp="$(mktemp)"
@@ -83,8 +80,8 @@ function extract() {
 run() {
     number=$1
     shift
-    for ((i=1; i<=number; i++)); do
+    time for ((i=1; i<=number; i++)); do
         "$@" echo x$i
     done
 }
-status=$(astatus)
+complete -cf doas
