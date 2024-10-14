@@ -4,27 +4,27 @@ choice=$(echo -e "qemu-run\nqemu-install\nqemu-mkdisk\nexit" | dmenu -i -p "Sele
 
 case "$choice" in
     qemu-run)
-        disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||' | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1
+        disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||' | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
 
-        memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1
+        memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1 || [ "$memory" == "" ] && exit 1 
 
         ~/qemu/qemu-run "$disk" "$memory"
         ;;
     qemu-install)
-        iso=$(find ~/qemu/iso -type f | sed 's|/.*/.*/qemu/iso/||' | dmenu -i -p "Select ISO image:"); [ "$iso" == "exit" ] && exit 1
+        iso=$(find ~/qemu/iso -type f | sed 's|/.*/.*/qemu/iso/||' | dmenu -i -p "Select ISO image:"); [ "$iso" == "exit" ] && exit 1 || [ "$iso" == "" ] && exit 1 
 
-        disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||'  | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1
+        disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||'  | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
 
-        memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1
+        memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
         
         ~/qemu/qemu-install "$iso" "$disk" "$memory"
         ;;
     qemu-mkdisk)
-        name=$(echo "" | dmenu -i -p "Enter disk name (e.g., manjaro.qcow2):"); [ "$name" == "exit" ] && exit 1
+        name=$(echo "" | dmenu -i -p "Enter disk name (e.g., manjaro.qcow2):"); [ "$name" == "exit" ] && exit 1 || [ "$name" == "" ] && exit 1 
 
-        size=$(echo -e "10G\n20G\n30G\nexit" | dmenu -i -p "Enter disk size:"); [ "$size" == "exit" ] && exit 1
+        size=$(echo -e "10G\n20G\n30G\nexit" | dmenu -i -p "Enter disk size:"); [ "$size" == "exit" ] && exit 1 || [ "$size" == "" ] && exit 1 
         
-        format=$(echo -e "qcow2\nimg\nexit" | dmenu -i -p "Enter disk format:"); [ "$format" == "exit" ] && exit 1
+        format=$(echo -e "qcow2\nimg\nexit" | dmenu -i -p "Enter disk format:"); [ "$format" == "exit" ] && exit 1 || [ "$format" == "" ] && exit 1 
 
         ~/qemu/qemu-mkdisk "$name" "$size" "$format"
         ;;
@@ -32,7 +32,6 @@ case "$choice" in
         exit 1
         ;;
     *)
-        echo "Invalid choice"
         exit 1
         ;;
 esac
