@@ -2,23 +2,57 @@
 
 choice=$(echo -e "qemu-run\nqemu-install\nqemu-mkdisk\nexit" | dmenu -i -p "Select QEMU operation:")
 
+get_usb_devices() {
+    usb_decision=$(echo -e "No\nYes" | dmenu -i -p "USB passthrough:")
+    
+    if [ "$usb_decision" = "Yes" ]; then
+        usb_args=""
+        while true; do
+            usb_device=$(lsusb | grep -v hub | dmenu -i -p "USB device for passthrough: (Escape to stop selection):")
+            
+            if [ -z "$usb_device" ]; then
+                break
+            fi
+
+            usb_bus=$(echo "$usb_device" | awk '{print $2}')
+            usb_device_id=$(echo "$usb_device" | awk '{print $4}' | sed 's/://')
+
+            usb_args="-usb -device usb-host,hostbus=$usb_bus,hostaddr=$usb_device_id"
+        done
+        
+        echo "$usb_args"
+    else
+        echo ""
+    fi
+}
+
 case "$choice" in
     qemu-run)
         disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||' | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
 
         memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1 || [ "$memory" == "" ] && exit 1 
 
-        ~/qemu/qemu-run "$disk" "$memory"
+        usb_device=$(get_usb_devices)
+
+        qemu-system-x86_64 -enable-kvm -boot menu=off -drive file=$HOME/qemu/vdd/"$disk" -m $memory -cpu host -smp $(( $(nproc --all) / 2 )) -vga virtio -display sdl,window-close=on,gl=on -nic user,model=virtio $usb_device
         ;;
+
+
+
     qemu-install)
         iso=$(find ~/qemu/iso -type f | sed 's|/.*/.*/qemu/iso/||' | dmenu -i -p "Select ISO image:"); [ "$iso" == "exit" ] && exit 1 || [ "$iso" == "" ] && exit 1 
 
         disk=$(find ~/qemu/vdd -type f | sed 's|/.*/.*/qemu/vdd/||'  | dmenu -i -p "Select virtual disk image:"); [ "$disk" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
 
         memory=$(echo -e "2G\n4G\n6G\n8G\nexit" | dmenu -i -p "Enter memory allocation (e.g., 6G):"); [ "$memory" == "exit" ] && exit 1 || [ "$disk" == "" ] && exit 1 
+
+        usb_device=$(get_usb_devices)
         
-        ~/qemu/qemu-install "$iso" "$disk" "$memory"
+        qemu-system-x86_64 -enable-kvm -boot menu=off -cdrom $HOME/qemu/iso/"$iso" -drive file=$HOME/qemu/vdd/"$disk" -m $memory -cpu host -smp $(( $(nproc --all) / 2 )) -vga virtio -display sdl,window-close=on,gl=on -nic user,model=virtio $usb_device
         ;;
+
+
+
     qemu-mkdisk)
         name=$(echo "" | dmenu -i -p "Enter disk name (e.g., manjaro.qcow2):"); [ "$name" == "exit" ] && exit 1 || [ "$name" == "" ] && exit 1 
 
@@ -26,8 +60,12 @@ case "$choice" in
         
         format=$(echo -e "qcow2\nimg\nexit" | dmenu -i -p "Enter disk format:"); [ "$format" == "exit" ] && exit 1 || [ "$format" == "" ] && exit 1 
 
-        ~/qemu/qemu-mkdisk "$name" "$size" "$format"
+        qemu-img create -f $format ~/qemu/vdd/"$name" $size
         ;;
+
+
+
+
     exit)
         exit 1
         ;;
